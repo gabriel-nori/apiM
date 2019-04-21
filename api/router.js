@@ -9,49 +9,56 @@ const chat = require('./routes/chat');
 const login = require('./routes/login');
 const errorM = require(libError);
 function router(req, res){
-	let body = '';
-	var bodyObject;
-    req.on('data', chunk => {
-        body += chunk.toString(); // convert Buffer to string
-    }).on('end', () => {
-    	try{
-			bodyObject = JSON.parse(body);
-			routes(req, res, bodyObject);
-		}
-		catch(error){
-			errorM.throwWebError(res, 400);
-		}
-    });
+	if(req.url === '/favicon.ico'){
+		errorM.throwWebError(res, 204);
+	}
+	else{
+		let body = '';
+		var bodyObject;
+	    req.on('data', chunk => {
+	        body += chunk.toString(); // convert Buffer to string
+	    }).on('end', () => {
+	    	try{
+				bodyObject = JSON.parse(body);
+				routes(req, res, bodyObject);
+			}
+			catch(error){
+				errorM.throwWebError(res, 400);
+			}
+	    });
+	}
 }
 
 function routes(req, res, bodyObject){
 
 	if(bodyObject.request){
-		if(req.url === '/pet'){
+		let url = req.url.substring(1);
+		url = url.substring(0, url.indexOf("/"));
+		if(url === 'pet'){
 			pet(req, res);
 		}
-		else if(req.url === '/user'){
+		else if(url === 'user'){
 			user(req, res);
 		}
-		if(req.url === '/vet'){
+		else if(url === 'vet'){
 			vet(req, res);
 		}
-		else if(req.url === '/notification'){
+		else if(url === 'notification'){
 			notification(req, res);
 		}
-		else if(req.url === '/pfp'){
+		else if(url === 'pfp'){
 			pfp(req, res);
 		}
-		else if(req.url === '/owner'){
+		else if(url === 'owner'){
 			owner(req, res);
 		}
-		else if(req.url === '/wiki'){
+		else if(url === 'wiki'){
 			wiki(req, res);
 		}
-		else if(req.url === '/chat'){
+		else if(url === 'chat'){
 			chat(req, res);
 		}
-		else if(req.url === '/login'){
+		else if(url === 'login'){
 			login(req, res);
 		}
 		else{

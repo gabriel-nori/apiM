@@ -2,10 +2,11 @@ const db = require('./db');
 
 function connectDb(){
 	return new Promise((resolve, reject) => {
-		db.connect((err) => {
+		/*db.connect((err) => {
 		  if (err) return reject(err);
 		  resolve();
-		});
+		});*/
+    resolve();
 	});
 }
 

@@ -13,6 +13,9 @@ function throwWebError(res, error){
 		case 101:
 			message = 'switching protocols';
 		break;
+		case 204:
+			message = 'no content';
+		break;
 		case 301:
 			message = 'moved permanently';
 		break;
